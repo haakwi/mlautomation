@@ -1,0 +1,8 @@
+apiVersion: getambassador.io/v2
+kind:  Mapping
+metadata:
+  name:  monitoring-mapping
+  namespace: seldon-system
+spec:
+  prefix: /monitoring/
+  service: http://seldon-core-analytics-grafana:80

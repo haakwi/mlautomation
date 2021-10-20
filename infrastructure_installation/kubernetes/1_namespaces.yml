@@ -1,0 +1,19 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: ambassador
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: seldon-system
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: seldon
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: mlflow

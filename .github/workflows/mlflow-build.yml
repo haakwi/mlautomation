@@ -1,5 +1,10 @@
 name: Model build
-on: [push]
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'infrastructure_installation'
 
 jobs:
   mlflow-run:
