@@ -4,7 +4,7 @@ on:
     branches:
       - master
     paths-ignore:
-      - 'infrastructure_installation'
+      - '**/infrastructure_installation'
 
 jobs:
   mlflow-run:
