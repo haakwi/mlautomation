@@ -21,6 +21,8 @@ import logging
 logging.basicConfig(level=logging.WARN)
 logger = logging.getLogger(__name__)
 
+# define method
+
 
 def eval_metrics(actual, pred):
     rmse = np.sqrt(mean_squared_error(actual, pred))
@@ -81,12 +83,13 @@ if __name__ == "__main__":
 
         # Model registry does not work with file store
         if tracking_url_type_store != "file":
-            ## hafsdl01238i9dfpöl
+            # hafsdl01238i9dfpöl
             # Register the model
             # There are other ways to use the Model Registry, which depends on the use case,
             # please refer to the doc for more information:
             # https://mlflow.org/docs/latest/model-registry.html#api-workflow
-            mlflow.sklearn.log_model(lr, "model", registered_model_name="ElasticnetWineModel")
+            mlflow.sklearn.log_model(
+                lr, "model", registered_model_name="ElasticnetWineModel")
             # root_dir = os.path.dirname(os.path.realpath(__file__))
             # client = MlflowClient()
             # result = client.create_model_version(
