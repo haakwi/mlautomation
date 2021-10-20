@@ -1,0 +1,33 @@
+name: Production Deployment
+on:
+  schedule:
+    - cron: "*/1 * * * *"
+
+jobs:
+  mlflow-run:
+    runs-on: ubuntu-latest
+    env:
+      MLFLOW_TRACKING_URI: http://35.241.233.235/mlflow/
+      GKE_PROJECT: strategic-lens-329311
+      GKE_CLUSTER: mlops-hhz-standard-cluster
+      GKE_ZONE: europe-west1
+      MODEL_NAME: ElasticnetWineModel
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      # Setup gcloud CLI
+      - uses: google-github-actions/setup-gcloud@master
+        with:
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
+          project_id: ${{ env.GKE_PROJECT }}
+      - name: Install jq
+        run: sudo apt-get install -y jq
+      # Get the GKE credentials so we can deploy to the cluster
+      - run: |-
+          gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+      - name: Set model uri
+        run: echo 'MODEL_URI='$(curl '${{ env.MLFLOW_TRACKING_URI }}/ajax-api/2.0/preview/mlflow/registered-models/get-latest-versions?name=${{ env.MODEL_NAME }}&stages=Production' | jq '.model_versions[0].source') >> $GITHUB_ENV
+      - name: Deploy
+        run: |-
+          envsubst < deployment/seldon_model.yml | kubectl apply -f -
+          kubectl get services -o wide

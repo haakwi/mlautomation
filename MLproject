@@ -1,0 +1,12 @@
+name: tutorial
+
+# conda_env: conda.yaml
+docker_env:
+   image:  akhuy/mlflow:1.11.0
+
+entry_points:
+  main:
+    parameters:
+      alpha: {type: float, default: 0.5}
+      l1_ratio: {type: float, default: 0.1}
+    command: "python train.py {alpha} {l1_ratio}"

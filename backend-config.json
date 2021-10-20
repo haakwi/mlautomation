@@ -1,0 +1,4 @@
+{
+    "repository-uri": "akhuy/mlscience",
+    "kube-job-template-path": "kubernetes_job_template.yml"
+}
