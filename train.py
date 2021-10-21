@@ -88,8 +88,8 @@ if __name__ == "__main__":
             # There are other ways to use the Model Registry, which depends on the use case,
             # please refer to the doc for more information:
             # https://mlflow.org/docs/latest/model-registry.html#api-workflow
-            mlflow.sklearn.log_model(
-                lr, "model", registered_model_name="ElasticnetWineModel")
+            # mlflow.sklearn.log_model( lr, "model", registered_model_name="ElasticnetWineModel")
+            mlflow.autolog(log_input_examples=True)
             # root_dir = os.path.dirname(os.path.realpath(__file__))
             # client = MlflowClient()
             # result = client.create_model_version(
