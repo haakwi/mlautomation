@@ -81,7 +81,7 @@ if __name__ == "__main__":
         mlflow.log_metric("rmse", rmse)
         mlflow.log_metric("r2", r2)
         mlflow.log_metric("mae", mae)
-        mlflow.log_metric("ZH_M", 'Test')
+        mlflow.log_metric("ZH_M", 123)
 
         mlflow.set_tag("Author", "HAAK")
 
