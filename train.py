@@ -61,11 +61,11 @@ if __name__ == "__main__":
     # host = "http://35.241.233.235/mlflow/"
     # mlflow.set_tracking_uri(host)
     with mlflow.start_run():
+
         lr = ElasticNet(alpha=alpha, l1_ratio=l1_ratio, random_state=42)
         lr.fit(train_x, train_y)
 
         predicted_qualities = lr.predict(test_x)
-
         (rmse, mae, r2) = eval_metrics(test_y, predicted_qualities)
 
         print("Elasticnet model (alpha=%f, l1_ratio=%f):" % (alpha, l1_ratio))
@@ -73,11 +73,19 @@ if __name__ == "__main__":
         print("  MAE: %s" % mae)
         print("  R2: %s" % r2)
 
+        # MlFlow log Parameter & Metrics
         mlflow.log_param("alpha", alpha)
         mlflow.log_param("l1_ratio", l1_ratio)
+        mlflow.log_param("ZH_P", 'Test')
+
         mlflow.log_metric("rmse", rmse)
         mlflow.log_metric("r2", r2)
         mlflow.log_metric("mae", mae)
+        mlflow.log_metric("ZH_M", 'Test')
+
+        mlflow.set_tag("Author", "HAAK")
+
+        # lflow.log_artifacts("http://35.241.233.235")
 
         tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
 
@@ -89,10 +97,10 @@ if __name__ == "__main__":
             # please refer to the doc for more information:
             # https://mlflow.org/docs/latest/model-registry.html#api-workflow
 
-            # mlflow.sklearn.log_model(
-            #    lr, "model", registered_model_name="ElasticnetWineModel")
+            mlflow.sklearn.log_model(
+                lr, "model", registered_model_name="ElasticnetWineModel")
 
-            mlflow.sklearn.autolog()
+            # mlflow.sklearn.autolog()
             # root_dir = os.path.dirname(os.path.realpath(__file__))
             # client = MlflowClient()
             # result = client.create_model_version(
