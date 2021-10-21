@@ -92,8 +92,7 @@ if __name__ == "__main__":
             # mlflow.sklearn.log_model(
             #    lr, "model", registered_model_name="ElasticnetWineModel")
 
-            mlflow.sklearn.autolog(
-                log_input_examples=True, log_post_training_metrics=True)
+            mlflow.sklearn.autolog()
             # root_dir = os.path.dirname(os.path.realpath(__file__))
             # client = MlflowClient()
             # result = client.create_model_version(
