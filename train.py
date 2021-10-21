@@ -58,6 +58,8 @@ if __name__ == "__main__":
     alpha = float(sys.argv[1]) if len(sys.argv) > 1 else 0.5
     l1_ratio = float(sys.argv[2]) if len(sys.argv) > 2 else 0.5
 
+    mlflow.sklearn.autolog()
+
     # host = "http://35.241.233.235/mlflow/"
     # mlflow.set_tracking_uri(host)
     with mlflow.start_run():
@@ -97,9 +99,9 @@ if __name__ == "__main__":
             # please refer to the doc for more information:
             # https://mlflow.org/docs/latest/model-registry.html#api-workflow
 
-            mlflow.sklearn.log_model(
-                lr, "model", registered_model_name="ElasticnetWineModel")
-
+            # mlflow.sklearn.log_model(
+            #    lr, "model", registered_model_name="ElasticnetWineModel")
+            print("tst")
             # mlflow.sklearn.autolog()
             # root_dir = os.path.dirname(os.path.realpath(__file__))
             # client = MlflowClient()
