@@ -1,0 +1,27 @@
+@startuml
+actor DataScientist
+
+title Sequence diagram **ML Model Build** process
+DataScientist -> GitHub: Git push experiment
+
+GitHub -> GithubAction: Erstelle ML Modell
+
+GithubAction -> GithubAction : Build Docker Image with mlflow run
+GithubAction -> DockerHub: Upload Docker Image
+GithubAction -> Kubernetes: Create Kubernetes Job to run the model generation
+GithubAction <-- Kubernetes: Response job created
+GitHub <-- GithubAction: Response GitHubAction finished
+DataScientist <-- GitHub: Response experiment pushed
+
+Kubernetes -> KubernetesJob: Schedule Job on defined Nodes (GPU / CPU spec)
+KubernetesJob -> DockerHub: Pull ML Modell Generation Container Image
+KubernetesJob <-- DockerHub: Response Container Image
+KubernetesJob -> KubernetesJob: Generate ML Model
+
+KubernetesJob -> MLFlow@k8s: Create MLFlow experiment and get Google Cloud Storage URL 
+KubernetesJob <-- MLFlow@k8s: Response
+
+KubernetesJob -> GoogleCloudStorage: Upload ML Model
+KubernetesJob <-- GoogleCloudStorage: Response upload success
+Kubernetes <-- KubernetesJob: Response job ended
+@enduml

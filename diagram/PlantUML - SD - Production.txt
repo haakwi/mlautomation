@@ -1,0 +1,25 @@
+@startuml
+title Sequence diagram **ML Model Production** process
+actor DataScientistApprover
+
+DataScientistApprover -> MLFlowUI: Update Model Stage to Production
+
+MLFlowUI -> MLFlowServer@k8s: Update Model Registry
+MLFlowUI <-- MLFlowServer@k8s: Response new Production stage 
+
+DataScientistApprover <-- MLFlowUI: New Modell will be deployed via CronJob
+
+loop CronJob:1min
+GithubAction -> MLFlowServer@k8s: Get Modell with Stage Production
+GithubAction <-- MLFlowServer@k8s: Response Model Details
+
+
+GithubAction -> GithubAction: Export RunID
+
+GithubAction -> Kubernetes: Trigger new Seldon Deployment
+GithubAction <-- Kubernetes: Deployment started (asynch)
+
+Kubernetes -> SeldonCore@k8s: Publish new ML Modell 
+Kubernetes <-- SeldonCore@k8s: New REST Endpoint for ML Modell available
+end
+@enduml
