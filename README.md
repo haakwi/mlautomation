@@ -164,7 +164,7 @@ The API of a deployed model can be accessed via:  **http://IP_ADDRESS/seldon/sel
 
 Please refer to the seldon documentation in [Seldon serving models](https://docs.seldon.io/projects/seldon-core/en/latest/workflow/serving.html) for more details.
 
-# Accessing the Monitoring UI
+# Accessing the Monitoring UI :part_alternation_mark:
 
 The Grafana UI can be accessed via: **http://IP_ADDRESS/monitoring/**.
 
